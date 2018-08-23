@@ -4,9 +4,9 @@ import spotipy.util as util
 
 
 
-clientID ="fb91f2209b824af1878ae11118f48932" #client_ID
-secretID = "24ba463a44b74819991dff54d9ac437f" #client Secret key
-userID = "freddyandalay" #spotify username
+clientID ="{you-client-id}" #add client_ID
+secretID = "{your-secrey-id}" #add client Secret key
+userID = "" #spotify username
 
 client_credentials_manager = SpotifyClientCredentials(client_id=clientID, client_secret=secretID) 
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)

@@ -12,7 +12,7 @@ import login
 from datetime import datetime
 
 
-gmaps = googlemaps.Client(key='AIzaSyDm89bpm5JuWByGYeExMKtk-VDADwtCX_8') #Add googleAPI key
+gmaps = googlemaps.Client(key={"you-googleAPI-key"}) #Add googleAPI key
 
 token = login.getToken()
 headers = {		
@@ -69,7 +69,6 @@ def playlistExist(userPlaylists):
 	playlistID=''
 	for playlist in userPlaylists:
 		if playlist['name'] == 'Space Jam':
-			print(playlist['id'])
 			playlistID = playlist['id']
 			return True
 		print('not found')
