@@ -8,7 +8,6 @@ Current state doesn't consider if a tack is already in the playlist.
 Note: ISS is mainly over water.
 
 ***Instructions***
--Add your spotify API client id and secret id login.py. 
--Add googlemaps API key on main.py
+Add your spotify API client id and secret id login.py. Add googlemaps API key on main.py
 
 Run main.py. This will prompt your browser. Copy the callback address and add where asked in terminal.
