@@ -15,13 +15,22 @@ SCOPES = ['user-library-read',
           'playlist-modify-public',
           'playlist-modify-private',
           ]
+GOOGLE_API_KEY = 'ENTER_YOUR_GOOGLE_API_KEY'
+
 
 PLAYLIST_NAME = 'Space Jam'
 PLAYLIST_DESCRIPTION = 'A out ouf this world playlist. ' \
                        'A playlist created from space. ' \
                        'A playlist generated using the geo-location of the International Space Station'
 PLAYLIST_PUBLIC_STATUS = False
+
 CREATE_PLAYLIST_ENDPOINT = 'https://api.spotify.com/v1/users/freddyvandalay/playlists'
 GET_PLAYLIST_ENDPOINT = 'https://api.spotify.com/v1/me/playlists'
-if 'ENTER_YOUR' in CLIENT_ID or 'ENTER_YOUR' in CLIENT_SECRET or 'ENTER_YOUR' in USER_ID:
+ISS_API_ENDPOINT = 'http://api.open-notify.org/iss-now.json'
+
+# Simple check of user defined variables
+if  'ENTER_YOUR' in CLIENT_ID \
+        or 'ENTER_YOUR' in CLIENT_SECRET \
+        or 'ENTER_YOUR' in USER_ID \
+        or 'ENTER_YOUR' in GOOGLE_API_KEY:
     raise ValueError('config.py does not contain valid CLIENT_ID, CLIENT_SECRET and USER_ID')
