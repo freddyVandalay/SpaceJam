@@ -1,27 +1,19 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy.util as util
+import config
 
 
-
-clientID ="{you-client-id}" #add client_ID
-secretID = "{your-secrey-id}" #add client Secret key
-userID = "" #spotify username
-
-client_credentials_manager = SpotifyClientCredentials(client_id=clientID, client_secret=secretID) 
+client_credentials_manager = SpotifyClientCredentials(client_id=config.CLIENT_ID, client_secret=config.CLIENT_SECRET)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-
-scope = 'user-library-read playlist-read-private user-read-private user-read-email user-read-birthdate playlist-modify-public playlist-modify-private' #user previligies
-
-token = util.prompt_for_user_token(userID,scope,client_id=clientID,client_secret=secretID,redirect_uri='http://localhost:8888/callback')
-
+token = util.prompt_for_user_token(config.USER_ID, config.SCOPES,
+                                   client_id=config.CLIENT_ID,
+                                   client_secret=config.CLIENT_SECRET,
+                                   redirect_uri=config.REDIRECT_URI
+                                   )
 if token:
     sp = spotipy.Spotify(auth=token)
 else:
-    print("Can't get token for", userID)
+    print("Can't get token for {}".format(config.USER_ID))
 
 def getToken(): return token
-
-#set SPOTIPY_CLIENT_ID='fb91f2209b824af1878ae11118f48932'
-#set SPOTIPY_CLIENT_SECRET='24ba463a44b74819991dff54d9ac437f'
-#set SPOTIPY_REDIRECT_URI='http://localhost:8888/callback'
