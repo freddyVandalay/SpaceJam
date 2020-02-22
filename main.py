@@ -1,27 +1,25 @@
-#This program runs from the terminal and creates a new spotify playlist called Space Jam. 
-#Tracks are added to the playlist based on the geolocation of the Internatinal Space Station, ISS. 
+#This program runs from the terminal and creates a new spotify playlist called Space Jam.
+#Tracks are added to the playlist based on the geolocation of the Internatinal Space Station, ISS.
 #By using this program your spotify account will be modfied. (New playlist will be created and song added to the playlist)
-										
-										
+
+import config
 import requests
 import googlemaps
-import urllib
 import urllib.request as urllib2
 import json
 import login
-from datetime import datetime
 
 
 gmaps = googlemaps.Client(key={"you-googleAPI-key"}) #Add googleAPI key
 
 token = login.getToken()
-headers = {		
-			"Accept": "application/json", 
-			"Content-Type": "application/json", 
+headers = {
+			"Accept": "application/json",
+			"Content-Type": "application/json",
 			"Authorization": "Bearer " + token
 }
 
-def getISSPos():
+def get_iss_pos():
 	req = urllib2.Request("http://api.open-notify.org/iss-now.json")
 	response = urllib2.urlopen(req)
 	data = json.loads(response.read())
@@ -30,34 +28,35 @@ def getISSPos():
 
 	return lng,lat
 
-def getGoogleMapsData(lng,lat):
+def get_google_maps_data(lng,lat):
+	user_search = None
 	reverse_geocode_result = gmaps.reverse_geocode((lat, lng))
 
 	if reverse_geocode_result:
-		#print('City: ' + reverse_geocode_result[0]['address_components'][0]['long_name'])
-		userSearch = reverse_geocode_result[0]['address_components'][0]['long_name']
+		# print('user_search: {}'.format(reverse_geocode_result[0]['address_components'][0]['long_name']))
+		user_search = reverse_geocode_result[0]['address_components'][0]['long_name']
 	else:
-		userSearch = 'ocean' #If no results is found, ISS is over the i ocean
-		return 'ocean'
+		user_search = 'ocean' #If no results is found, ISS is over the i ocean
 
-	return userSearch
+	return user_search
 
 ###Spotify actions
-def setUserID():
+def set_user_id():
 	req = urllib2.Request("https://api.spotify.com/v1/me", headers=headers)
 	response = urllib2.urlopen(req)
-
 	obj = json.loads(response.read())
-	userID = obj['id']
-	return userID
+	user_id = obj['id']
+	return user_id
 
-def createPlaylist():
-	data = {'name' : 'Space Jam', 'description': 'new test list', 'public': False}
-	response=requests.post(url="https://api.spotify.com/v1/users/freddyvandalay/playlists", json= data, headers=headers)
+def create_playlist():
+	data = {'name' : config.PLAYLIST_NAME,
+			'description': config.PLAYLIST_DESCRIPTION,
+			'public': config.PLAYLIST_PUBLIC_STATUS}
+	response=requests.post(url=config.CREATE_PLAYLIST_ENDPOINT, json= data, headers=headers)
 	debug(response)
 
-def getPlaylists():
-	req = urllib2.Request("https://api.spotify.com/v1/me/playlists", headers= headers)
+def get_playlists():
+	req = urllib2.Request(config.GET_PLAYLIST_ENDPOINT, headers= headers)
 	response = urllib2.urlopen(req)
 	playlists = json.loads(response.read())
 	#print(playlists['items'][0]['name'])
@@ -65,28 +64,20 @@ def getPlaylists():
 	#print("")
 	return playlists['items']
 
-def playlistExist(userPlaylists):
-	playlistID=''
-	for playlist in userPlaylists:
-		if playlist['name'] == 'Space Jam':
-			playlistID = playlist['id']
-			return True
-		print('not found')
-	return False
-
-def getPlaylistID(userPlaylists):
-	for playlist in userPlaylists:
-		if playlist['name'] == 'Space Jam':
+def get_playlist_id(user__playlists):
+	playlist_id = None
+	for playlist in user__playlists:
+		if playlist['name'] == config.PLAYLIST_NAME:
 			print(playlist['id'])
-			playlistID = playlist['id']
-			return playlistID
+			playlist_id = playlist['id']
+			return playlist_id
 	return 'not found'
 
 
-def searchTracks(userSearch):
+def search_tracks(userSearch):
 	userSearch = userSearch.replace(" ", "%20")
 	print("Searh phrase: " + userSearch)
-	req = urllib2.Request("https://api.spotify.com/v1/search?q=" + userSearch +  "&type=track&limit=1", 
+	req = urllib2.Request("https://api.spotify.com/v1/search?q=" + userSearch +  "&type=track&limit=1",
 						headers= headers
 						)
 	response = urllib2.urlopen(req)
@@ -99,13 +90,13 @@ def searchTracks(userSearch):
 	print("Search result: " + result)
 	return result
 
-def addTrack(trackID, playlistID):
+def add_track(trackID, playlistID):
 
 	print
 	data = {'uris' : [trackID], 'position': 0}
 
 	response=requests.post(url="https://api.spotify.com/v1/playlists/" + playlistID + "/tracks", json= data, headers=headers)
-	
+
 	debug(response)
 	print("Added track to the Space Jam playlist." )
 
@@ -114,27 +105,27 @@ def debug(response):
 
 def main():
 	#OAuth token
-	print ('Welcome to Space Jam: A playlist created from space')
-	print("Username: " + setUserID())
+	print ('Space Jam: A playlist created from space')
+	print("Username: " + set_user_id())
 
-	playlistID = getPlaylistID(getPlaylists())
+	playlist_id = get_playlist_id(get_playlists())
 
-	if playlistID == 'not found':
-		createPlaylist()
-		playlistID = getPlaylistID(getPlaylists())
+	if playlist_id == 'not found':
+		create_playlist()
+		playlist_id = get_playlist_id(get_playlists())
 		print("Created playlist called: Space Jam")
 	else:
 		print("Welcome back!")
 
-	lng,lat = getISSPos()
+	lng,lat = get_iss_pos()
 
-	searchPhrase = getGoogleMapsData(lng,lat)
-	
-	trackID = searchTracks(searchPhrase)
+	search_phrase = get_google_maps_data(lng,lat)
 
-	addTrack(trackID,playlistID)
+	track_id = search_tracks(search_phrase)
+
+	add_track(track_id,playlist_id)
 
 if __name__ == "__main__":
-    main()
+	main()
 
 
