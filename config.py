@@ -33,4 +33,4 @@ if  'ENTER_YOUR' in CLIENT_ID \
         or 'ENTER_YOUR' in CLIENT_SECRET \
         or 'ENTER_YOUR' in USER_ID \
         or 'ENTER_YOUR' in GOOGLE_API_KEY:
-    raise ValueError('config.py does not contain valid CLIENT_ID, CLIENT_SECRET and USER_ID')
+    raise ValueError('config.py does not contain valid CLIENT_ID, CLIENT_SECRET, USER_ID and GOOGLE_API_KEY')
