@@ -13,6 +13,27 @@ The program creates the playlist if it doesn't already exists.
 
 Note: ISS is mainly over water.
 
+#### Creating a virtual environment
+```bash
+python3 -m venv .venv
+```
+
+#### Activating the newly created virtual environment
+
+You always want your virtual environment to be active when working on this project.
+
+```bash
+source ./.venv/bin/activate
+```
+
+#### Installing Python requirements
+
+This will install some of the packages you might find useful:
+
+```bash
+pip3 install -r ./requirements.txt
+```
+
 ##### USAGE
 Add your api credentials to the config file
 
