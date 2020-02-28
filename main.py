@@ -16,7 +16,7 @@ import login
 headers = {
     "Accept": "application/json",
     "Content-Type": "application/json",
-    "Authorization": "Bearer " + login.getToken()
+    "Authorization": "Bearer {}".format(login.getToken())
 }
 
 
@@ -32,7 +32,8 @@ def get_iss_pos():
 
 
 def get_google_maps_data(latitude, longitude):
-    """Format: latitude, longitude
+    """
+    Format: latitude, longitude
     """
     gmaps = googlemaps.Client(key=config.GOOGLE_API_KEY)
     reverse_geocode_result = gmaps.reverse_geocode(longitude, latitude)
@@ -48,7 +49,7 @@ def get_google_maps_data(latitude, longitude):
 
 #  Spotify actions
 def set_user_id():
-    req = urllib2.Request("https://api.spotify.com/v1/me", headers=headers)
+    req = urllib2.Request("{}/me".format(config.SPOTIFY_BASE_URL), headers=headers)
     response = urllib2.urlopen(req)
     obj = json.loads(response.read())
     user_id = obj['id']
@@ -86,7 +87,9 @@ def get_playlist_id(user_playlists):
 def search_tracks(user_search):
     user_search = user_search.replace(" ", "%20")
     print("Track search phrase: " + user_search)
-    req = urllib2.Request("https://api.spotify.com/v1/search?q=" + user_search + "&type=track&limit=1", headers=headers)
+
+    req = urllib2.Request("{0}/search?q={1}&type=track&limit=1".format(config.SPOTIFY_BASE_URL, user_search),
+                          headers=headers)
 
     response = urllib2.urlopen(req)
     results = json.loads(response.read())
@@ -101,9 +104,8 @@ def search_tracks(user_search):
 def add_track(track_id, playlist_id):
     # TODO
     #  - Add track name to print
-    #  - string formatting for post request
     data = {'uris': [track_id], 'position': 0}
-    response = requests.post(url="https://api.spotify.com/v1/playlists/" + playlist_id + "/tracks",
+    response = requests.post(url="{}/playlists/{}/tracks".format(config.SPOTIFY_BASE_URL, playlist_id),
                              json=data,
                              headers=headers)
     debug(response)
