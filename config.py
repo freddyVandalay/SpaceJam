@@ -24,8 +24,9 @@ PLAYLIST_DESCRIPTION = 'A out ouf this world playlist. ' \
                        'A playlist generated using the geo-location of the International Space Station'
 PLAYLIST_PUBLIC_STATUS = False
 
-CREATE_PLAYLIST_ENDPOINT = 'https://api.spotify.com/v1/users/freddyvandalay/playlists'
-GET_PLAYLIST_ENDPOINT = 'https://api.spotify.com/v1/me/playlists'
+SPOTIFY_BASE_URL = "https://api.spotify.com/v1"
+CREATE_PLAYLIST_ENDPOINT = '/users/freddyvandalay/playlists'
+GET_PLAYLIST_ENDPOINT = '/me/playlists'
 ISS_API_ENDPOINT = 'http://api.open-notify.org/iss-now.json'
 
 # Simple check of user defined variables
