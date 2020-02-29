@@ -34,10 +34,11 @@ This will install some of the packages you might find useful:
 pip3 install -r ./requirements.txt
 ```
 
-##### USAGE
-Add your api credentials to the config file
+##### Create config file
+1. Rename config.template.py --> config.py
+2. and add required credentials
 
-Run main.py. This will prompt your browser. Copy the callback address and add where asked in terminal.
+.gitignore will exclude config.py in future commits.
 
 #### API Resources
 ISS API:
@@ -49,6 +50,5 @@ https://developer.spotify.com/documentation/web-api/
 
 ###### TODO
  - Write a version of the program to be executed with an aws lambda function.
- - Current state doesn't consider if a tack is already in the playlist.
+ - Current state doesn't consider if a track is already in the playlist.
  - General clean-up and improvement of code
- - Update Usage section
