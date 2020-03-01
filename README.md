@@ -1,5 +1,7 @@
 # SpaceJam - the Spotify playlist generator 
 
+[SpaceJam](https://open.spotify.com/playlist/5O5R4Tgb8Q92tlsZAKWuyG) - Open playlist in Spotify
+
 This program creates a Spotify playlist called SpaceJam. 
 Tracks are added to the playlist based on the geolocation of the ISS (International Space Station).
 
