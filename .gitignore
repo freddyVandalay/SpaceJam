@@ -106,5 +106,6 @@ venv.bak/
 # pycharm folder
 .idea/
 
-# Credential file
+# Secrets
 config.py
+.cache*
