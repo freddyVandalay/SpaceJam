@@ -36,7 +36,7 @@ def get_google_maps_data(latitude, longitude):
     Format: latitude, longitude
     """
     gmaps = googlemaps.Client(key=config.GOOGLE_API_KEY)
-    reverse_geocode_result = gmaps.reverse_geocode(longitude, latitude)
+    reverse_geocode_result = gmaps.reverse_geocode((latitude, longitude))
 
     if reverse_geocode_result:
         # print('user_search: {}'.format(reverse_geocode_result[0]['address_components'][0]['long_name']))
@@ -53,7 +53,6 @@ def set_user_id():
     response = urllib2.urlopen(req)
     obj = json.loads(response.read())
     user_id = obj['id']
-
     return user_id
 
 
@@ -61,12 +60,15 @@ def create_playlist():
     data = {'name': config.PLAYLIST_NAME,
             'description': config.PLAYLIST_DESCRIPTION,
             'public': config.PLAYLIST_PUBLIC_STATUS}
-    response = requests.post(url=config.CREATE_PLAYLIST_ENDPOINT, json=data, headers=headers)
+
+    url = config.SPOTIFY_BASE_URL + config.CREATE_PLAYLIST_ENDPOINT
+    response = requests.post(url=url, json=data, headers=headers)
     debug(response)
 
 
 def get_playlists():
-    req = urllib2.Request(config.GET_PLAYLIST_ENDPOINT, headers=headers)
+    url = config.SPOTIFY_BASE_URL + config.CREATE_PLAYLIST_ENDPOINT
+    req = urllib2.Request(url=url, headers=headers)
     response = urllib2.urlopen(req)
     playlists = json.loads(response.read())
     # print(playlists['items'][0]['name'])
@@ -78,7 +80,7 @@ def get_playlists():
 def get_playlist_id(user_playlists):
     for playlist in user_playlists:
         if playlist['name'] == config.PLAYLIST_NAME:
-            print(playlist['id'])
+            # print(playlist['id'])
             playlist_id = playlist['id']
             return playlist_id
     return 'not found'
@@ -120,6 +122,12 @@ def main():
     print('Space Jam: A playlist created from space')
     print("Username: " + set_user_id())
 
+    # try:
+    #     stderr, stdout = node_run('/path/to/some/file.js', '--some-argument')
+    # except Exception as e:
+    #     print(stderr)
+    #     raise Exception(e)
+
     playlist_id = get_playlist_id(get_playlists())
 
     if playlist_id == 'not found':
@@ -136,4 +144,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
