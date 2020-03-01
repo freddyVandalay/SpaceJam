@@ -48,7 +48,7 @@ def get_google_maps_data(latitude, longitude):
 
 
 #  Spotify actions
-def set_user_id():
+def describe_user_id():
     req = urllib2.Request("{}/me".format(config.SPOTIFY_BASE_URL), headers=headers)
     response = urllib2.urlopen(req)
     obj = json.loads(response.read())
@@ -63,7 +63,7 @@ def create_playlist():
 
     url = config.SPOTIFY_BASE_URL + config.PLAYLIST_ENDPOINT
     response = requests.post(url=url, json=data, headers=headers)
-    debug(response)
+    # debug(response)
 
 
 def get_playlists():
@@ -73,14 +73,13 @@ def get_playlists():
     playlists = json.loads(response.read())
     # print(playlists['items'][0]['name'])
     # print(playlists['items'][0]['id'])
-    # print("")
     return playlists['items']
 
 
 def get_playlist_id(user_playlists):
     for playlist in user_playlists:
         if playlist['name'] == config.PLAYLIST_NAME:
-            # print(playlist['id'])
+            # debug(playlist['id'])
             playlist_id = playlist['id']
             return playlist_id
     return 'not found'
@@ -106,27 +105,31 @@ def search_tracks(user_search):
 def add_track(track_id, playlist_id):
     # TODO
     #  - Add track name to print
-    data = {'uris': [track_id], 'position': 0}
-    response = requests.post(url="{}/playlists/{}/tracks".format(config.SPOTIFY_BASE_URL, playlist_id),
-                             json=data,
-                             headers=headers)
-    debug(response)
-    print("Added track to the Space Jam playlist.")
+    if not track_exist(track_id, playlist_id):
+        data = {'uris': [track_id], 'position': 0}
+        requests.post(url="{}/playlists/{}/tracks".format(config.SPOTIFY_BASE_URL, playlist_id),
+                      json=data,
+                      headers=headers)
+        print("Added new track to playlist.")
 
 
-def debug(response):
-    print("Debug: Post " + str(response))
+def track_exist(new_track_id, playlist_id):
+    url = config.SPOTIFY_BASE_URL + "/playlists/{}/tracks".format(playlist_id, new_track_id)
+    req = urllib2.Request(url=url, headers=headers)
+    response = urllib2.urlopen(req)
+    result = json.loads(response.read())
+    tracks = result['items']
+    for track in tracks:
+        track_id = track['track']['id']
+        if new_track_id.split(":")[2] == track_id:
+            print("Adding track failed. Track already exists")
+            return True
+    return False
 
 
 def main():
     print('Space Jam: A playlist created from space')
-    print("Username: " + set_user_id())
-
-    # try:
-    #     stderr, stdout = node_run('/path/to/some/file.js', '--some-argument')
-    # except Exception as e:
-    #     print(stderr)
-    #     raise Exception(e)
+    print("Logged in as: " + describe_user_id())
 
     playlist_id = get_playlist_id(get_playlists())
 
@@ -144,5 +147,4 @@ def main():
 
 
 if __name__ == "__main__":
-
     main()
