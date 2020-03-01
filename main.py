@@ -61,13 +61,13 @@ def create_playlist():
             'description': config.PLAYLIST_DESCRIPTION,
             'public': config.PLAYLIST_PUBLIC_STATUS}
 
-    url = config.SPOTIFY_BASE_URL + config.CREATE_PLAYLIST_ENDPOINT
+    url = config.SPOTIFY_BASE_URL + config.PLAYLIST_ENDPOINT
     response = requests.post(url=url, json=data, headers=headers)
     debug(response)
 
 
 def get_playlists():
-    url = config.SPOTIFY_BASE_URL + config.CREATE_PLAYLIST_ENDPOINT
+    url = config.SPOTIFY_BASE_URL + config.PLAYLIST_ENDPOINT
     req = urllib2.Request(url=url, headers=headers)
     response = urllib2.urlopen(req)
     playlists = json.loads(response.read())

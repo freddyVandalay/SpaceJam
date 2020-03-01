@@ -25,8 +25,7 @@ PLAYLIST_DESCRIPTION = 'A out ouf this world playlist. ' \
 PLAYLIST_PUBLIC_STATUS = False
 
 SPOTIFY_BASE_URL = "https://api.spotify.com/v1"
-CREATE_PLAYLIST_ENDPOINT = '/users/freddyvandalay/playlists'
-GET_PLAYLIST_ENDPOINT = '/me/playlists'
+PLAYLIST_ENDPOINT = '/users/{}/playlists'.format(USER_ID)
 ISS_API_ENDPOINT = 'http://api.open-notify.org/iss-now.json'
 
 # Simple check of user defined variables
