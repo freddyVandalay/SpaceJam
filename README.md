@@ -49,6 +49,9 @@ http://open-notify.org/Open-Notify-API/ISS-Location-Now/
 Spotify API:
 https://developer.spotify.com/documentation/web-api/
 
+Google Geocoding API:
+https://developers.google.com/maps/documentation/geocoding/intro
+
 
 ###### TODO
  - Write a version of the program to be executed with an aws lambda function.
