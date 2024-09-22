@@ -39,11 +39,15 @@ pip3 install -r ./requirements.txt
 
 ### Configure API Credentials
 
+1. Copy config.template.py
+`cp sample.env .env`
+2. and update with your credentials
+
+### Configure Playlist and API details
+
 1. Copy config.template.py and update variables with angled brackets
 `cp config.template.py config.py`
 2. and add required credentials
-
-.gitignore will exclude config.py in future commits.
 
 ## Resources
 
