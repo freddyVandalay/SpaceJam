@@ -5,6 +5,7 @@ idna==2.7
 requests==2.20.0
 spotipy==2.4.4
 urllib3==1.24.2
+pydantic==2.9.2
 
 # formatting
-black
+black==24.8.0
