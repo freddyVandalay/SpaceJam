@@ -46,7 +46,7 @@ pip3 install -r ./requirements.txt
 ### Configure Playlist and API details
 
 1. Copy config.template.py and update variables with angled brackets
-`cp config.template.py config.py`
+`cp sample.config.py config.py`
 2. and add required credentials
 
 ## Resources
@@ -62,8 +62,12 @@ Google Geocoding API:
 
 ## Future Improvements
 
-- Write a version of the program to be executed with an aws lambda function.
+- Add lambda handler
 
 - Current state doesn't consider if a track is already in the playlist.
 
-- General clean-up and improvement of code
+- implement pydantic model
+
+- refactor: use api client
+
+- Add tests
